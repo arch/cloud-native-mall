@@ -6,4 +6,5 @@ include 'mall-express'
 include 'mall-domain'
 include 'mall-data'
 include 'mall-cloud-native'
+include 'mall-config'
 

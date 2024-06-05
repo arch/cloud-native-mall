@@ -1,0 +1,22 @@
+server:
+  port: 8888
+  tomcat:
+    threads:
+      max: 50
+      min-spare: 5
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
+
+spring:
+  application:
+    name: mall-config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/arch/mall-config
+          default-label: main
+          timeout: 5
+          clone-on-start: true
+          force-pull: true
+          basedir: mall-config
