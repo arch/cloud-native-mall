@@ -32,6 +32,10 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+bootRun {
+    systemProperty "mall.testdata.enabled", "true"
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }
