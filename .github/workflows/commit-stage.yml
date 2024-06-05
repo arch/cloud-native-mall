@@ -33,4 +33,4 @@ jobs:
       - name: Build, unit tests and integration tests
         run: |
           chmod +x gradlew
-          ./gradlew test
+          ./gradlew build
