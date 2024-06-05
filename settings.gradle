@@ -1,0 +1,9 @@
+rootProject.name = 'cloud-native-mall'
+include 'mall-admin'
+include 'mall-miniprogram'
+include 'mall-crosscut'
+include 'mall-express'
+include 'mall-domain'
+include 'mall-data'
+include 'mall-cloud-native'
+
