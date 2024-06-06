@@ -5,6 +5,5 @@ include 'mall-crosscut'
 include 'mall-express'
 include 'mall-domain'
 include 'mall-data'
-include 'mall-cloud-native'
+include 'mall-catalog'
 include 'mall-config'
-
