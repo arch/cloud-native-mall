@@ -11,6 +11,10 @@ java {
     sourceCompatibility = '17'
 }
 
+ext {
+    set 'springCloudVersion', "2023.0.2"
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -24,12 +28,19 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 bootRun {
