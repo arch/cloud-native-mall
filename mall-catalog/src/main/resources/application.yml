@@ -26,3 +26,9 @@ spring:
         max-attempts: 6
         max-interval: 2000          # 2s
         multiplier: 1.1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh            # enable endpoint /actuator/refresh
