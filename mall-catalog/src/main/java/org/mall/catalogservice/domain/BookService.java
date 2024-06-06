@@ -31,10 +31,14 @@ public class BookService {
         return bookRepository.findByIsbn(isbn)
                 .map(existsBook -> {
                     var bookToUpdate = new Book(
+                            existsBook.id(),
                             existsBook.isbn(),
                             book.title(),
                             book.author(),
-                            book.price()
+                            book.price(),
+                            existsBook.createdAt(),
+                            existsBook.lastModifiedAt(),
+                            existsBook.version()
                     );
                     return bookRepository.save(bookToUpdate);
                 })
