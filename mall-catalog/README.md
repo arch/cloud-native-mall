@@ -9,7 +9,7 @@ docker run -d \
     -e POSTGRES_PASSWORD=p@ssword \
     -e POSTGRES_DB=mall_catalog \
     -p 5432:5432 \
-    postgres:14.10
+    postgres:16.3-alpine
 ```
 
 ## Container Commands
