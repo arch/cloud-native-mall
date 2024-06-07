@@ -6,18 +6,6 @@ create a Docker network
 docker network create mall-network
 ```
 
-## Running Catalog Service
-
-```bash
-docker run -d \
-    --name catalog-servie \
-    -network mall-networ \
-    -p 9001:9001 \
-    -e SPRING_DATASOURCE_URL=jdbc:postgresql://mall-posgres:5432/mall_catalog \
-    -e MALL_TESTDATA_ENABLED=true \
-    catalog-service
-```
-
 ## Running a PostgreSQL Database
 
 Run PostgreSQL as a Docker container
@@ -58,6 +46,18 @@ docker exec -it mall-postgres psql -U mall -d mall_catalog
 | `\d book`               | Show the `book` table schema.                  |
 | `\quit`                 | Quit interactive psql console.                 |
 
+## Running Catalog Service
+
+```bash
+docker run -d \
+    --name catalog-servie \
+    --network mall-network \
+    -p 9001:9001 \
+    -e SPRING_DATASOURCE_URL=jdbc:postgresql://mall-postgres:5432/mall_catalog \
+    -e MALL_TESTDATA_ENABLED=true \
+    catalog-service
+```
+
 From within the PSQL console, you can also fetch all the data stored in the `book` table.
 
 ```bash
@@ -67,5 +67,5 @@ select * from book;
 # Cleanup
 
 ```bash
-docker rm -f catalog-service mall-postres
+docker rm -f catalog-servie mall-postgres
 ```
