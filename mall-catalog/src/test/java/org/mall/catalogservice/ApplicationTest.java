@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 @ActiveProfiles("integration")
-class ApplicationTest extends AbstractIntegrationTest {
+class ApplicationTest {
     @Autowired
     private WebTestClient webTestClient;
 

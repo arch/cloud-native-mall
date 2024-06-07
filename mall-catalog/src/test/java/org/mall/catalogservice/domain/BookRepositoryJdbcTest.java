@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(DatabaseAuditing.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("integration")
-class BookRepositoryJdbcTest extends AbstractIntegrationTest {
+class BookRepositoryJdbcTest {
     @Autowired
     private BookRepository bookRepository;
 
