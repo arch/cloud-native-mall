@@ -4,6 +4,7 @@ package org.mall.catalogservice.domain;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mall.catalogservice.AbstractIntegrationTest;
 import org.mall.catalogservice.config.DatabaseAuditing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
@@ -21,33 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(DatabaseAuditing.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("integration")
-class BookRepositoryJdbcTests {
+class BookRepositoryJdbcTest extends AbstractIntegrationTest {
     @Autowired
     private BookRepository bookRepository;
 
     @Autowired
     private JdbcAggregateTemplate jdbcAggregateTemplate;
-
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-            "postgres:16.3-alpine"
-    );
-
-    @BeforeAll
-    static void beforeAll() {
-        postgres.start();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        postgres.stop();
-    }
-
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
 
     @Test
     void findBookByIsbnWhenExisting() {
