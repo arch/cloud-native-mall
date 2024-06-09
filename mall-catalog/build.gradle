@@ -55,6 +55,19 @@ bootRun {
     systemProperty "mall.testdata.enabled", "true"
 }
 
+bootBuildImage {
+    imageName = "${project.name}"
+    environment = ["BP_JVM_VERSION" : "17.*"]
+
+    docker {
+        publishRegistry {
+            username = project.findProperty("username")
+            password = project.findProperty("password")
+            url = project.findProperty("url")
+        }
+    }
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }

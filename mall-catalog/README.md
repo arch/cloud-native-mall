@@ -18,14 +18,14 @@ docker run -d \
     -e POSTGRES_PASSWORD=p@ssword \
     -e POSTGRES_DB=mall_catalog \
     -p 5432:5432 \
-    postgres:16.3-alpine
+    postgres:latest
 ```
 
 ### Container Commands
 
-| Docker Command	               | Description       |
+| Docker Command                |    Description    |
 |:------------------------------|:-----------------:|
-| `docker stop mall-postgres`   | Stop container.   |
+| `docker stop mall-postgres`   |  Stop container.  |
 | `docker start mall-postgres`  | Start container.  |
 | `docker remove mall-postgres` | Remove container. |
 
@@ -50,7 +50,7 @@ docker exec -it mall-postgres psql -U mall -d mall_catalog
 
 ```bash
 docker run -d \
-    --name catalog-servie \
+    --name catalog-service \
     --network mall-network \
     -p 9001:9001 \
     -e SPRING_DATASOURCE_URL=jdbc:postgresql://mall-postgres:5432/mall_catalog \
@@ -67,5 +67,16 @@ select * from book;
 # Cleanup
 
 ```bash
-docker rm -f catalog-servie mall-postgres
+docker rm -f catalog-service mall-postgres
+```
+
+# Publish images to GitHub Containers Registry
+
+```bash
+./gradlew :mall-catalog:bootBuildImage \
+--imageName ghcr.io/<your_github_username>/catalog-service \
+--publishImage \
+-Purl=ghcr.io \
+-Pusername=<your_github_username> \
+-Ppassword=<your_github_token>
 ```
