@@ -40,3 +40,9 @@ management:
     web:
       exposure:
         include: refresh            # enable endpoint /actuator/refresh
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc=DEBUG:
