@@ -55,15 +55,16 @@ bootRun {
     systemProperty "mall.testdata.enabled", "true"
 }
 
+// https://docs.spring.io/spring-boot/gradle-plugin/packaging-oci-image.html
 bootBuildImage {
     imageName = "${project.name}"
     environment = ["BP_JVM_VERSION" : "17.*"]
 
     docker {
         publishRegistry {
+            url = project.findProperty("registry")
             username = project.findProperty("username")
             password = project.findProperty("password")
-            url = project.findProperty("url")
         }
     }
 }

@@ -76,7 +76,7 @@ docker rm -f catalog-service mall-postgres
 ./gradlew :mall-catalog:bootBuildImage \
 --imageName ghcr.io/<your_github_username>/catalog-service \
 --publishImage \
--Purl=ghcr.io \
+-Pregistry=ghcr.io \
 -Pusername=<your_github_username> \
 -Ppassword=<your_github_token>
 ```
