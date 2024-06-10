@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+
+  # Application
+
+  catalog-service:
+    depends_on:
+      - mall-postgres
+      - config-service
+    image: "mall-catalog"
+    container_name: "catalog-service"
+    ports:
+      - "9001:9001"
+      - "8001:8001"
+
+    environment:
+      # Buildpacks environment variable to configure the numbers of threads in memory calculation
+      - BPL_JVM_THREAD_COUNT=50
+      # Buildpacks environment variable to enable debug through a socket on port 8001
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8001
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://mall-postgres:5432/mall_catalog
+      - MALL_TESTDATA_ENABLED=true
+
+  config-service:
+    image: "mall-config"
+    container_name: "config-service"
+    ports:
+      - "8888:8888"
+      - "9888:9888"
+    environment:
+      - BPL_JVM_THREAD_COUNT=50
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=9888
+
+  # Backing Services
+
+  mall-postgres:
+    image: "postgres:latest"
+    container_name: "mall-postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=mall
+      - POSTGRES_PASSWORD=p@ssword
+      - POSTGRES_DB=mall_catalog
