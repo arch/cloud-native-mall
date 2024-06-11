@@ -62,8 +62,6 @@ jobs:
           chmod +x gradlew
           ./gradlew :mall-catalog:bootBuildImage \ 
             --imageName ${{ env.REGISTRY }}/${{env.USER}}/catalog-service:${{ env.VERSION }}
-          ./gradlew :mall-config:bootBuildImage \
-            --imageName ${{ env.REGISTRY }}/${{env.USER}}/config-service:${{ env.VERSION }}
       - name: OCI image vulnerability scanning
         uses: anchore/scan-action@v3
         with:
@@ -85,4 +83,3 @@ jobs:
       - name: Publish container image
         run: | 
           docker push ${{ env.REGISTRY }}/${{env.USER}}/catalog-service:${{ env.VERSION }}
-          docker push ${{ env.REGISTRY }}/${{env.USER}}/config-service:${{ env.VERSION }}
