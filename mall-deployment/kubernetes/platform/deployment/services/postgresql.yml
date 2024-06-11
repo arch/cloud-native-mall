@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mall-postgres
+  labels:
+    db: mall-postgres
+spec:
+  selector:
+    matchLabels:
+      db: mall-postgres
+  template:
+    metadata:
+      labels:
+        db: mall-postgres
+    spec:
+      containers:
+        - name: mall-postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_USER
+              value: mall
+            - name: POSTGRES_PASSWORD
+              value: p@ssword
+            - name: POSTGRES_DB
+              value: mall_catalog
+          resources:
+            requests:
+              cpu: 100m
+              memory: 60Mi
+            limits:
+              cpu: 200m
+              memory: 120Mi
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mall-postgres
+  labels:
+    db: mall-postgres
+spec:
+  type: ClusterIP
+  selector:
+    db: mall-postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
