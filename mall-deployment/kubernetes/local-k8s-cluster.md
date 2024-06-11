@@ -6,6 +6,11 @@ Create a named mall k8s cluster with two cpu cores and 4G memory
 minikube start --cpus 2 --memory 4g --driver docker --profile mall
 ```
 
+Running dashboard
+```bash
+minikube dashboard --profile mall
+```
+
 Get nodes of the mall cluster
 
 ```bash
