@@ -58,6 +58,7 @@ jobs:
           ./gradlew :mall-catalog:bootBuildImage --imageName ghcr.io/${{ github.actor }}/catalog-service:latest
       - name: OCI image vulnerability scanning
         uses: anchore/scan-action@v3
+        id: scan
         with:
           image: ghcr.io/${{ github.actor }}/catalog-service:latest
           fail-build: false
