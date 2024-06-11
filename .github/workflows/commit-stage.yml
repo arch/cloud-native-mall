@@ -77,4 +77,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
         run: | 
-          docker push ghcr.io/${{ github.actor }}/catalog-service:latest
+          docker push ghcr.io/${{ github.actor }}/catalog-service
