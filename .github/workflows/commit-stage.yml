@@ -1,6 +1,11 @@
 name: Commit Stage
 on: push
 
+env:
+  REGISTRY: ghcr.io
+  USER: rigofunc
+  VERSION: latest
+
 jobs:
   build:
     name: Build and Test
@@ -25,12 +30,59 @@ jobs:
           fail-build: false
           severity-cutoff: high
           acs-report-enable: true
-#      - name: Upload vulnerability report
-#        uses: github/codeql-action/upload-sarif@v3
-#        if: success() || failure()
-#        with:
-#          sarif_file: "${{ steps.scan.outputs.sarif }}"
+      - name: Upload vulnerability report
+        uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure()
+        with:
+          sarif_file: "${{ steps.scan.outputs.sarif }}"
       - name: Build, unit tests and integration tests
         run: |
           chmod +x gradlew
           ./gradlew build
+  package:
+    name: Package and Publish
+    if: ${{ github.ref == 'refs/heads/main' }}
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+    steps:
+      - name: checkout source code
+        uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - name: Build container image
+        run: |
+          chmod +x gradlew
+          ./gradlew :mall-catalog:bootBuildImage \ 
+            --imageName ${{ env.REGISTRY }}/${{env.USER}}/catalog-service:${{ env.VERSION }}
+          ./gradlew :mall-config:bootBuildImage \
+            --imageName ${{ env.REGISTRY }}/${{env.USER}}/config-service:${{ env.VERSION }}
+      - name: OCI image vulnerability scanning
+        uses: anchore/scan-action@v3
+        with:
+          image: ${{ env.REGISTRY }}/${{env.USER}}/catalog-service:${{ env.VERSION }}
+          fail-build: false
+          severity-cutoff: high
+          acs-report-enable: true
+      - name: Upload vulnerability report
+        uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure()
+        with:
+          sarif_file: "${{ steps.scan.outputs.sarif }}"
+      - name: Log into container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish container image
+        run: | 
+          docker push ${{ env.REGISTRY }}/${{env.USER}}/catalog-service:${{ env.VERSION }}
+          docker push ${{ env.REGISTRY }}/${{env.USER}}/config-service:${{ env.VERSION }}
