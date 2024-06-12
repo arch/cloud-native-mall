@@ -1,19 +1,19 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.0'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '3.3.0'
+    id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'org.mall'
 version = '1.0-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
-ext {
-    set 'springCloudVersion', '2023.0.0'
-}
+description = 'Provides functionality for managing the products in the catalog.'
 
 configurations {
     compileOnly {
@@ -25,14 +25,19 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set 'springCloudVersion', '2023.0.2'
+}
+
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.retry:spring-retry'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.flywaydb:flyway-core'
+    implementation 'org.flywaydb:flyway-database-postgresql'
 
     runtimeOnly 'org.postgresql:postgresql'
 
@@ -58,7 +63,7 @@ bootRun {
 // https://docs.spring.io/spring-boot/gradle-plugin/packaging-oci-image.html
 bootBuildImage {
     imageName = "${project.name}"
-    environment = ["BP_JVM_VERSION" : "17.*"]
+    environment = ["BP_JVM_VERSION" : "17"]
 
     docker {
         publishRegistry {

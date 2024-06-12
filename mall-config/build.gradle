@@ -1,15 +1,17 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.0'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '3.3.0'
+    id 'io.spring.dependency-management' version '1.1.5'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 group = 'org.mall'
 version = '1.0-SNAPSHOT'
-
-java {
-    sourceCompatibility = '17'
-}
 
 description = 'Provides functionality for centralizing the application configuration.'
 
@@ -18,7 +20,7 @@ repositories {
 }
 
 ext {
-    set 'springCloudVersion', "2023.0.0"
+    set 'springCloudVersion', "2023.0.2"
 }
 
 dependencies {
@@ -34,7 +36,7 @@ dependencyManagement {
 
 bootBuildImage {
     imageName = "${project.name}"
-    environment = ["BP_JVM_VERSION": "17.*"]
+    environment = ["BP_JVM_VERSION": "17"]
 
     docker {
         publishRegistry {
