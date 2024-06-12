@@ -33,12 +33,6 @@ kubectl config current-context
 kubectl config use-context mall
 ```
 
-## Stop mall k8s cluster
-
-```bash
-minikube stop --profile mall
-```
-
 ## Running PostgreSQL
 
 step-0: optional, if pull image failed, run
@@ -56,6 +50,12 @@ step-2: run postgres in cluster
 kubectl apply -f services
 ```
 
+step-3: delete postgres service
+```bash
+cd mall-deployment/kubernetes/platform/deployment
+kubectl delete -f services
+```
+
 ## Use Tilt to impl inner development loop
 
 step-1: change pwd
@@ -71,4 +71,23 @@ titl up
 step-3: tilt down
 ```bash
 tilt down
+```
+
+## Cleanup
+
+tilt down
+```bash
+tilt down
+```
+
+delete postgres service
+```bash
+cd mall-deployment/kubernetes/platform/deployment
+kubectl delete -f services
+```
+
+Stop mall k8s cluster
+
+```bash
+minikube stop --profile mall
 ```

@@ -31,3 +31,5 @@ spec:
               value: "jdbc:postgresql://mall-postgres/mall_catalog"
             - name: MALL_TESTDATA_ENABLED
               value: "true"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: "http://config-service"
