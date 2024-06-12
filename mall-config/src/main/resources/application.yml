@@ -6,10 +6,13 @@ server:
       min-spare: 5
     connection-timeout: 2s
     keep-alive-timeout: 15s
+  shutdown: graceful
 
 spring:
   application:
     name: config-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
   cloud:
     config:
       server:
