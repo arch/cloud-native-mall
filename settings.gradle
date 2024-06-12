@@ -7,3 +7,5 @@ include 'mall-domain'
 include 'mall-data'
 include 'mall-catalog'
 include 'mall-config'
+include 'mall-order'
+

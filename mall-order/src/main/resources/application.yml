@@ -1,0 +1,39 @@
+server:
+  shutdown: graceful
+  port: 9002
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+
+spring:
+  application:
+    name: order-service
+  r2dbc:
+    username: mall
+    password: p@ssword
+    url: r2dbc:postgresql://localhost:5432/mall_order
+    pool:
+      max-create-connection-time: 2s
+      initial-size: 5
+      max-size: 10
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8888
+      request-connect-timeout: 5000 # 5s
+      request-read-timeout: 5000    # 5s
+      fail-fast: false              # In production, set to true
+      retry:
+        initial-interval: 1000      # 1s
+        max-attempts: 6
+        max-interval: 2000          # 2s
+        multiplier: 1.1
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  flyway:
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
+    url: jdbc:postgresql://localhost:5432/mall_order
+mall:
+  catalog-service-uri: "http://localhost:9001"

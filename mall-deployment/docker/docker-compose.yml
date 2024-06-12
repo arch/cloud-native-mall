@@ -44,4 +44,6 @@ services:
     environment:
       - POSTGRES_USER=mall
       - POSTGRES_PASSWORD=p@ssword
-      - POSTGRES_DB=mall_catalog
+      # - POSTGRES_DB=mall_catalog
+    volumes:
+      - ./postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
