@@ -55,3 +55,20 @@ step-2: run postgres in cluster
 ```bash
 kubectl apply -f services
 ```
+
+## Use Tilt to impl inner development loop
+
+step-1: change pwd
+```bash
+cd mall-deployment/kubernates/application/deployment
+```
+
+ste-2: tilt up
+```bash
+titl up
+```
+
+step-3: tilt down
+```bash
+tilt down
+```
