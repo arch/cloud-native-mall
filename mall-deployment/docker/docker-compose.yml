@@ -6,13 +6,11 @@ services:
   catalog-service:
     depends_on:
       - mall-postgres
-      - config-service
     image: "mall-catalog"
     container_name: "catalog-service"
     ports:
       - "9001:9001"
       - "8001:8001"
-
     environment:
       # Buildpacks environment variable to configure the numbers of threads in memory calculation
       - BPL_JVM_THREAD_COUNT=50
@@ -22,6 +20,23 @@ services:
       - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
       - SPRING_DATASOURCE_URL=jdbc:postgresql://mall-postgres:5432/mall_catalog
       - MALL_TESTDATA_ENABLED=true
+
+  order-service:
+    depends_on:
+      - mall-postgres
+    image: "mall-order"
+    container_name: "order-service"
+    ports:
+      - "9002:9002"
+      - "8002:8002"
+    environment:
+      - BPL_JVM_THREAD_COUNT=50
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8002
+      - MALL_CATALOG_SERVICE_URL=http://catalog-service:9001
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - SPRING_R2DBC_URL=r2dbc:postgresql://mall-postgres:5432/mall_order
+      - SPRING_FLYWAY_URL=jdbc:postgresql://mall-postgres:5432/mall_order
 
   config-service:
     image: "mall-config"
