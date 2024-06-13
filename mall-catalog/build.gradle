@@ -62,6 +62,7 @@ bootRun {
 
 // https://docs.spring.io/spring-boot/gradle-plugin/packaging-oci-image.html
 bootBuildImage {
+    builder = "docker.io/paketobuildpacks/builder-jammy-base"
     imageName = "${project.name}"
     environment = ["BP_JVM_VERSION" : "17"]
 
