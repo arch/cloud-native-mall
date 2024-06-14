@@ -1,0 +1,15 @@
+# Build
+custom_build(
+    # name of the container image
+    ref = 'mall-edge',
+    # build the container image
+    command = '../gradlew :mall-edge:bootBuildImage --imageName $EXPECTED_REF',
+    # files to watch that trigger a new build
+    deps = ['build.gradle', 'src']
+)
+
+# Deploy
+k8s_yaml(['k8s/deployment.yml', 'k8s/service.yml'])
+
+# Manage
+k8s_resource('edge-service', port_forwards = ['9000'])
