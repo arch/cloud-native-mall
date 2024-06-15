@@ -30,7 +30,7 @@ minikube image load postgres:latest --profile mall
 
 # Test with Ingress
 
-macOS turn of tunnel to k8s
+macOS create a tunnel to k8s
 ```bash
 minikube tunnel --profile mall
 ```
