@@ -38,6 +38,20 @@ services:
       - SPRING_R2DBC_URL=r2dbc:postgresql://mall-postgres:5432/mall_order
       - SPRING_FLYWAY_URL=jdbc:postgresql://mall-postgres:5432/mall_order
 
+  dispatcher-service:
+    depends_on:
+      - mall-rabbitmq
+    image: "mall-dispatcher"
+    container_name: "dispatcher-service"
+    ports:
+      - "9003:9003"
+      - "8003:8003"
+    environment:
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8003
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - SPRING_RABBITMQ_HOST=mall-rabbitmq
+
   edge-service:
     depends_on:
       - mall-redis
@@ -85,3 +99,12 @@ services:
     container_name: "mall-redis"
     ports:
       - "6379:6379"
+
+  mall-rabbitmq:
+    image: "rabbitmq:3.13-management"
+    container_name: "mall-rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf

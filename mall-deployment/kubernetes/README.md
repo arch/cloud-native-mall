@@ -1,15 +1,4 @@
-# Running a Mall cluster
-
-Create a named mall k8s cluster with two cpu cores and 4G memory
-
-```bash
-minikube start --cpus 2 --memory 4g --driver docker --profile mall
-```
-
-Running dashboard
-```bash
-minikube dashboard --profile mall
-```
+# Inspect a Mall cluster
 
 Get nodes of the mall cluster
 
@@ -33,61 +22,30 @@ kubectl config current-context
 kubectl config use-context mall
 ```
 
-## Running PostgreSQL
+# Load image into Kubernetes cluster
 
-step-0: optional, if pull image failed, run
 ```bash
 minikube image load postgres:latest --profile mall
 ```
 
-step-1: change the work space, pwd
+# Test with Ingress
+
+macOS turn of tunnel to k8s
 ```bash
-cd mall-deployment/kubernetes/platform/deployment
+minikube tunnel --profile mall
 ```
 
-step-2: run postgres in cluster
+test REST api in a new terminal
 ```bash
-kubectl apply -f services
+http 127.0.0.1/books
 ```
 
-step-3: delete postgres service
+test message dispatching
 ```bash
-cd mall-deployment/kubernetes/platform/deployment
-kubectl delete -f services
+http POST 127.0.0.1/orders  isbn=1234567891 quantity=3
 ```
 
-## Use Tilt to impl inner development loop
-
-step-1: change pwd
+verify order dispatch status is DISPATCHED
 ```bash
-cd mall-deployment/kubernates/application/deployment
-```
-
-ste-2: tilt up
-```bash
-titl up
-```
-
-step-3: tilt down
-```bash
-tilt down
-```
-
-## Cleanup
-
-tilt down
-```bash
-tilt down
-```
-
-delete postgres service
-```bash
-cd mall-deployment/kubernetes/platform/deployment
-kubectl delete -f services
-```
-
-Stop mall k8s cluster
-
-```bash
-minikube stop --profile mall
+http 127.0.0.1/orders
 ```

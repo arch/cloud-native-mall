@@ -19,6 +19,20 @@ spring:
   config:
     import: "optional:configserver:"
   cloud:
+    function:
+      definition: dispatchOrder
+    stream:
+      bindings:
+        dispatchOrder-in-0:
+          destination: order-dispatched
+          group: ${spring.application.name}
+        acceptedOrder-out-0:
+          destination: order-accepted
+      rabbit:
+        bindings:
+          acceptedOrder-out-0:
+            producer:
+              transacted: true
     config:
       uri: http://localhost:8888
       request-connect-timeout: 5000 # 5s
@@ -31,6 +45,12 @@ spring:
         multiplier: 1.1
   lifecycle:
     timeout-per-shutdown-phase: 15s
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: mall
+    password: p@ssword
+    connection-timeout: 5s
   flyway:
     user: ${spring.r2dbc.username}
     password: ${spring.r2dbc.password}

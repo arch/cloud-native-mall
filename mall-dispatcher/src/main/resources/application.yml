@@ -1,0 +1,36 @@
+server:
+  port: 9003
+  shutdown: graceful
+spring:
+  application:
+    name: dispatcher-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8888
+      request-connect-timeout: 5000   # 5s
+      request-read-timeout: 5000      # 5s
+      fail-fast: false                # in production, set to true
+      retry:
+        max-attempts: 6
+        max-interval: 2000
+        initial-interval: 1000
+        multiplier: 1.1
+    function:
+      definition: pack|label
+    stream:
+      bindings:
+        packlabel-in-0:
+          destination: order-accepted
+          group: ${spring.application.name}
+        packlabel-out-0:
+          destination: order-dispatched
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: mall
+    password: p@ssword
+    connection-timeout: 5s

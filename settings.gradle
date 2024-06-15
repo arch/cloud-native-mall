@@ -3,4 +3,5 @@ include 'mall-catalog'
 include 'mall-config'
 include 'mall-order'
 include 'mall-edge'
+include 'mall-dispatcher'
 

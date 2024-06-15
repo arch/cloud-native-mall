@@ -2,5 +2,6 @@ include('../../../../mall-config/Tiltfile')
 include('../../../../mall-order/Tiltfile')
 include('../../../../mall-catalog/Tiltfile')
 include('../../../../mall-edge/Tiltfile')
+include('../../../../mall-dispatcher/Tiltfile')
 
 update_settings(max_parallel_updates=1)
