@@ -29,6 +29,8 @@ public class SecurityConfiguration {
                 //                new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .oauth2Login(Customizer.withDefaults())
                 .logout(logout -> logout.logoutSuccessHandler(oidcLogoutSuccessHandler(clientRegistrationRepository)))
+                // NOTE: In production, DON'T DO THIS
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .build();
     }
 
