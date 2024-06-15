@@ -108,3 +108,16 @@ services:
       - "15672:15672"
     volumes:
       - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+
+  # https://www.keycloak.org/
+  mall-keycloak:
+    image: "quay.io/keycloak/keycloak:25.0.0"
+    container_name: "mall-keycloak"
+    command: start-dev --import-realm
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
+    environment:
+      - KEYCLOAK_ADMIN=mall
+      - KEYCLOAK_ADMIN_PASSWORD=p@ssword
+    ports:
+      - "8080:8080"

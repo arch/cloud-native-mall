@@ -2,7 +2,7 @@
 
 echo "\n📦 Initializing Kubernetes cluster...\n"
 
-minikube start --cpus 4 --memory 8g --driver docker --profile mall
+minikube start --cpus 2 --memory 6g --driver docker --profile mall
 
 echo "\n🔌 Enabling NGINX Ingress Controller...\n"
 
@@ -10,9 +10,37 @@ minikube addons enable ingress --profile mall
 
 sleep 15
 
-echo "\n📦 Deploying platform services..."
+echo "\n📦 Loading Keycloak image into Kubernetes cluster..."
 
-kubectl apply -f services
+minikube image load quay.io/keycloak/keycloak:25.0.0 --profile mall
+
+echo "\n📦 Deploying Keycloak..."
+
+kubectl apply -f services/keycloak-conf.yml
+kubectl apply -f services/keycloak.yml
+
+sleep 5
+
+echo "\n⌛ Waiting for Keycloak to be deployed..."
+
+while [ $(kubectl get pod -l app=mall-keycloak | wc -l) -eq 0 ] ; do
+  sleep 2
+done
+
+echo "\n⌛ Waiting for Keycloak to be ready..."
+
+kubectl wait \
+  --for=condition=ready pod \
+  --selector=app=mall-keycloak \
+  --timeout=300s
+
+echo "\n⌛ Ensuring Keycloak Ingress is created..."
+
+kubectl apply -f services/keycloak.yml
+
+echo "\n📦 Deploying PostgreSQL..."
+
+kubectl apply -f services/postgresql.yml
 
 sleep 5
 
@@ -29,6 +57,12 @@ kubectl wait \
   --selector=db=mall-postgres \
   --timeout=180s
 
+echo "\n📦 Deploying Redis..."
+
+kubectl apply -f services/redis.yml
+
+sleep 5
+
 echo "\n⌛ Waiting for Redis to be deployed..."
 
 while [ $(kubectl get pod -l db=mall-redis | wc -l) -eq 0 ] ; do
@@ -41,6 +75,12 @@ kubectl wait \
   --for=condition=ready pod \
   --selector=db=mall-redis \
   --timeout=180s
+
+echo "\n📦 Deploying RabbitMQ..."
+
+kubectl apply -f services/rabbitmq.yml
+
+sleep 5
 
 echo "\n⌛ Waiting for RabbitMQ to be deployed..."
 
