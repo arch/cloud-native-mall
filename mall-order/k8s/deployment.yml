@@ -37,3 +37,5 @@ spec:
               value: "jdbc:postgresql://mall-postgres/mall_order"
             - name: SPRING_RABBITMQ_HOST
               value: mall-rabbitmq
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+              value: http://mall-keycloak/realms/mall
