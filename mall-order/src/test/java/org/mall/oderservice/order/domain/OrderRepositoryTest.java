@@ -1,7 +1,7 @@
 package org.mall.oderservice.order.domain;
 
 import org.junit.jupiter.api.Test;
-import org.mall.oderservice.config.DatabaseConfig;
+import org.mall.oderservice.conf.DatabaseConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.context.annotation.Import;
@@ -13,7 +13,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import reactor.test.StepVerifier;
 
 @DataR2dbcTest
-@Import(DatabaseConfig.class)
+@Import(DatabaseConfiguration.class)
 @Testcontainers
 class OrderRepositoryTest {
     @Container

@@ -1,4 +1,4 @@
-package org.mall.catalogservice.config;
+package org.mall.catalogservice.conf;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

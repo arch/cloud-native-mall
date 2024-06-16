@@ -1,11 +1,11 @@
-package org.mall.oderservice.config;
+package org.mall.oderservice.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class ClientConfig {
+public class ClientConfiguration {
     @Bean
     WebClient webClient(ClientProperties clientProperties, WebClient.Builder webClientBuilder) {
         return webClientBuilder

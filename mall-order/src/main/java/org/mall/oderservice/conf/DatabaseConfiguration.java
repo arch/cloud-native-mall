@@ -1,9 +1,9 @@
-package org.mall.oderservice.config;
+package org.mall.oderservice.conf;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
 
 @Configuration
 @EnableR2dbcAuditing
-public class DatabaseConfig {
+public class DatabaseConfiguration {
 }

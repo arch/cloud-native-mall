@@ -1,6 +1,6 @@
 package org.mall.catalogservice.web;
 
-import org.mall.catalogservice.config.MallProperties;
+import org.mall.catalogservice.conf.MallProperties;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

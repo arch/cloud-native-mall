@@ -1,4 +1,4 @@
-package org.mall.oderservice.config;
+package org.mall.oderservice.conf;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
