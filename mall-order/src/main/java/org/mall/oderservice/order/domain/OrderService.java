@@ -26,8 +26,8 @@ public class OrderService {
         this.streamBridge = streamBridge;
     }
 
-    public Flux<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public Flux<Order> getAllOrders(String username) {
+        return orderRepository.findByCreatedBy(username);
     }
 
     // NOTE: spring.stream.rabbit.bindings.<name>.producer.transacted=true
@@ -79,6 +79,8 @@ public class OrderService {
                 OrderStatus.DISPATCHED,
                 existingOrder.createdAt(),
                 existingOrder.lastModifiedAt(),
+                existingOrder.createdBy(),
+                existingOrder.lastModifiedBy(),
                 existingOrder.version());
     }
 }

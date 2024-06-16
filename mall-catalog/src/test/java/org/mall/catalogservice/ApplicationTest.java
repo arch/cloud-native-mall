@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dasniko.testcontainers.keycloak.KeycloakContainer;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mall.catalogservice.domain.Book;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,7 +138,7 @@ class ApplicationTest {
                 .expectBody(Book.class).value(book -> assertThat(book).isNotNull())
                 .returnResult().getResponseBody();
         var bookToUpdate = new Book(createdBook.id(), createdBook.isbn(), createdBook.title(), createdBook.author(), 7.95,
-                createdBook.createdAt(), createdBook.lastModifiedAt(), createdBook.version());
+                createdBook.createdAt(), createdBook.lastModifiedAt(), createdBook.createdBy(), createdBook.lastModifiedBy(), createdBook.version());
 
         webTestClient
                 .put()
