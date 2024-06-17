@@ -1,0 +1,10 @@
+mall:
+  greeting: Welcome to the Cloud Native Mall from a development Kubernetes environment!
+spring:
+  datasource:
+    url: jdbc:postgresql://mall-postgres/mall_catalog
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://mall-keycloak/realms/mall

@@ -43,11 +43,18 @@ spec:
             httpGet:
               port: 9001
               path: /actuator/health/liveness
-            initialDelaySeconds: 25
+            initialDelaySeconds: 10
             periodSeconds: 5
           readinessProbe:
             httpGet:
               port: 9001
               path: actuator/health/readiness
-            initialDelaySeconds: 25
+            initialDelaySeconds: 5
             periodSeconds: 15
+          volumeMounts:
+            - mountPath: /workspace/config
+              name: catalog-config-volume
+      volumes:
+        - name: catalog-config-volume
+          configMap:
+            name: catalog-config
