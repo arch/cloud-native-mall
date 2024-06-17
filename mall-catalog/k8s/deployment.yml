@@ -35,3 +35,15 @@ spec:
               value: "http://config-service"
             - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
               value: http://mall-keycloak/realms/mall
+          livenessProbe:
+            httpGet:
+              port: 9001
+              path: /actuator/health/liveness
+            initialDelaySeconds: 25
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 9001
+              path: actuator/health/readiness
+            initialDelaySeconds: 25
+            periodSeconds: 15

@@ -29,3 +29,15 @@ spec:
               value: http://config-service
             - name: SPRING_RABBITMQ_HOST
               value: mall-rabbitmq
+          livenessProbe:
+            httpGet:
+              port: 9003
+              path: /actuator/health/liveness
+            initialDelaySeconds: 25
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 9003
+              path: /actuator/health/readiness
+            initialDelaySeconds: 25
+            periodSeconds: 15

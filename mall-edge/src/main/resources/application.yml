@@ -112,3 +112,18 @@ logging:
     circuitbreacker: io.github.resilience4j,org.springframework.cloud.circuitbreaker
   level:
     circuitbreacker: info
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-components: always
+      show-details: always
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState, redis

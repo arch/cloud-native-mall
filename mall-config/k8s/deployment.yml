@@ -27,3 +27,15 @@ spec:
           env:
             - name: BPL_JVM_THREAD_COUNT
               value: "50"
+          livenessProbe:
+            httpGet:
+              port: 8888
+              path: /actuator/health/liveness
+            initialDelaySeconds: 25
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 8888
+              path: /actuator/health/readiness
+            initialDelaySeconds: 25
+            periodSeconds: 15

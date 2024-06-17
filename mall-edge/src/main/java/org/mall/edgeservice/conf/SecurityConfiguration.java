@@ -20,6 +20,7 @@ public class SecurityConfiguration {
     public SecurityWebFilterChain edgeSecurityFilterChain(ServerHttpSecurity http, ReactiveClientRegistrationRepository clientRegistrationRepository) {
         return http
                 .authorizeExchange(exchange -> exchange
+                        .pathMatchers("/actuator/**").permitAll()
                         .pathMatchers("/", "/*.css", "/*.js", "/favicon.ico")
                             .permitAll()
                         .pathMatchers(HttpMethod.GET, "/books/*")

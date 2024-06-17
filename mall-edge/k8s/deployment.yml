@@ -35,3 +35,15 @@ spec:
               value: http://order-service
             - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI
               value: http://mall-keycloak/realms/mall
+          livenessProbe:
+            httpGet:
+              port: 9000
+              path: /actuator/health/liveness
+            initialDelaySeconds: 25
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 9000
+              path: /actuator/health/readiness
+            initialDelaySeconds: 25
+            periodSeconds: 15
