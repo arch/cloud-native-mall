@@ -27,7 +27,8 @@ repositories {
 
 ext {
     set 'springCloudVersion', '2023.0.2'
-    set('testKeycloakVersion', "3.4.0")
+    set 'testKeycloakVersion', "3.4.0"
+    set 'otelVersion', '2.4.0'
 }
 
 dependencies {
@@ -42,6 +43,8 @@ dependencies {
     implementation 'org.flywaydb:flyway-database-postgresql'
 
     runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly "io.opentelemetry.javaagent:opentelemetry-javaagent:${otelVersion}"
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
@@ -58,6 +61,10 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
+
+springBoot {
+    buildInfo()
 }
 
 bootRun {

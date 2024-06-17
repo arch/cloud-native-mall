@@ -42,20 +42,31 @@ spring:
         max-interval: 2000          # 2s
         multiplier: 1.1
 
+info:
+  system: Cloud Native Mall
+
 management:
   endpoints:
     web:
       exposure:
-        include: refresh, health
+        include: info,refresh,flyway,health,prometheus
   endpoint:
     health:
       show-details: always
       show-components: always
       probes:
         enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
 
 logging:
-  level:
-    org:
-      springframework:
-        jdbc: debug
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"

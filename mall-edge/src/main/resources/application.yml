@@ -112,12 +112,14 @@ logging:
     circuitbreacker: io.github.resilience4j,org.springframework.cloud.circuitbreaker
   level:
     circuitbreacker: info
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
 management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,prometheus
   endpoint:
     health:
       show-components: always
@@ -127,3 +129,6 @@ management:
       group:
         readiness:
           include: readinessState, redis
+  metrics:
+    tags:
+      application: ${spring.application.name}
