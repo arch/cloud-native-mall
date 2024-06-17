@@ -9,7 +9,7 @@ server:
   shutdown: graceful
 
 mall:
-  greeting:  Welcome to the local mall catalog!
+  greeting: Welcome to the local mall catalog!
 
 spring:
   application:
@@ -29,9 +29,10 @@ spring:
         jwt:
           issuer-uri: http://localhost:8080/realms/mall
   config:
-    import: "optional:configserver:"
+    import: ""  # optional:configserver:
   cloud:
     config:
+      enabled: false
       uri: http://localhost:8888
       request-connect-timeout: 5000 # 5s
       request-read-timeout: 5000    # 5s
