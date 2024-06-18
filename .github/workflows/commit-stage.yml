@@ -8,6 +8,16 @@ jobs:
     permissions:
       contents: read
       security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [
+          mall-catalog,
+          mall-config,
+          mall-dispatcher,
+          mall-edge,
+          mall-order
+        ]
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -33,7 +43,7 @@ jobs:
       - name: Build, unit tests and integration tests
         run: |
           chmod +x gradlew
-          ./gradlew :mall-catalog:build
+          ./gradlew :${{ matrix.project }}:build
       - name: Setup tools
         uses: alexellis/setup-arkade@v3
       - name: Install tools
@@ -43,7 +53,7 @@ jobs:
           kubeconform: latest
       - name: Validate Kubernetes manifests
         run: |
-          kustomize build mall-catalog/k8s | kubeconform --strict -
+          kustomize build ${{ matrix.project }}/k8s | kubeconform --strict -
   package:
     name: Package and Publish
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -53,6 +63,16 @@ jobs:
       contents: read
       packages: write
       security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [
+          mall-catalog,
+          mall-config,
+          mall-dispatcher,
+          mall-edge,
+          mall-order
+        ]
     steps:
       - name: checkout source code
         uses: actions/checkout@v4
@@ -65,13 +85,13 @@ jobs:
       - name: Build container image
         run: |
           chmod +x gradlew
-          ./gradlew :mall-catalog:bootBuildImage \
-          --imageName ghcr.io/arch/mall-catalog:${{github.sha}}
+          ./gradlew :${{ matrix.project }}:bootBuildImage \
+          --imageName ghcr.io/arch/${{ matrix.project }}:${{github.sha}}
       - name: OCI image vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
         with:
-          image: ghcr.io/arch/mall-catalog:${{github.sha}}
+          image: ghcr.io/arch/${{ matrix.project }}:${{github.sha}}
           fail-build: false
           severity-cutoff: high
           acs-report-enable: true
@@ -87,9 +107,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
-        run: docker push ghcr.io/arch/mall-catalog:${{ github.sha }}
+        run: docker push ghcr.io/arch/${{ matrix.project }}:${{ github.sha }}
       - name: Publish container image (latest)
         run: |
-          docker tag ghcr.io/arch/mall-catalog:${{ github.sha }} \
-            ghcr.io/arch/mall-catalog:latest
-          docker push ghcr.io/arch/mall-catalog:latest
+          docker tag ghcr.io/arch/${{ matrix.project }}:${{ github.sha }} \
+            ghcr.io/arch/${{ matrix.project }}:latest
+          docker push ghcr.io/arch/${{ matrix.project }}:latest
