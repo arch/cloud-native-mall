@@ -34,15 +34,16 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build
-      - name: Validate Kubernetes manifests
-        uses: stefanprodan/kube-tools@v1
+      - name: Setup tools
+        uses: alexellis/setup-arkade@v3
+      - name: Install tools
+        uses: alexellis/arkade-get@master
         with:
-          kubectl: 1.28.3
-          kubeval: 0.16.1
-          command: |
-            kustomize build mall-catalog/k8s | kubeval --strict -
-
-
+          kustomize: latest
+          kubeconform: latest
+      - name: Validate Kubernetes manifests
+        run: |
+          kustomize build mall-catalog/k8s | kubeconform --strict -
   package:
     name: Package and Publish
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -65,12 +66,12 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew :mall-catalog:bootBuildImage \
-          --imageName ghcr.io/${{ github.actor }}/catalog-service:latest
+          --imageName ghcr.io/${{ github.actor }}/mall-catalog:${{github.sha}}
       - name: OCI image vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
         with:
-          image: ghcr.io/${{ github.actor }}/catalog-service:latest
+          image: ghcr.io/${{ github.actor }}/mall-catalog:${{github.sha}}
           fail-build: false
           severity-cutoff: high
           acs-report-enable: true
@@ -79,11 +80,16 @@ jobs:
         if: success() || failure()
         with:
           sarif_file: "${{ steps.scan.outputs.sarif }}"
-#      - name: Log into container registry
-#        uses: docker/login-action@v3
-#        with:
-#          registry: ghcr.io
-#          username: ${{ github.actor }}
-#          password: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Publish container image
-#        run: docker push ghcr.io/${{ github.actor }}/catalog-service:latest
+      - name: Log into container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish container image
+        run: docker push ghcr.io/${{ github.actor }}/mall-catalog:${{ github.sha }}
+      - name: Publish container image (latest)
+        run: |
+          docker tag ghcr.io/${{ github.actor }}/mall-catalog:${{ github.sha }} \
+            ghcr.io${{ github.actor }}/mall-catalog:latest
+          docker push ghcr.io${{ github.actor }}/mall-catalog:latest
