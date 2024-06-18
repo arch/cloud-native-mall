@@ -87,9 +87,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
-        run: docker push ghcr.io/${{ github.actor }}/mall-catalog:${{ github.sha }}
+        run: docker push ghcr.io/arch/mall-catalog:${{ github.sha }}
       - name: Publish container image (latest)
         run: |
-          docker tag ghcr.io/${{ github.actor }}/mall-catalog:${{ github.sha }} \
-            ghcr.io${{ github.actor }}/mall-catalog:latest
-          docker push ghcr.io${{ github.actor }}/mall-catalog:latest
+          docker tag ghcr.io/arch/mall-catalog:${{ github.sha }} \
+            ghcr.io/arch/mall-catalog:latest
+          docker push ghcr.io/arch/mall-catalog:latest
