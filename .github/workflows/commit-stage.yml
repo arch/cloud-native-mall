@@ -3,7 +3,7 @@ on: push
 
 jobs:
   build:
-    name: Build and Test
+    name: Build, Unit tests and Integration tests
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -55,7 +55,7 @@ jobs:
         run: |
           kustomize build ${{ matrix.project }}/k8s | kubeconform --strict -
   package:
-    name: Package and Publish
+    name: Package and Publish container images
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: [ build ]
     runs-on: ubuntu-latest
