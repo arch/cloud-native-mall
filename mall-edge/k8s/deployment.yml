@@ -29,16 +29,10 @@ spec:
               exec:
                 command: [ "sh", "-c", "sleep 5" ]
           env:
-            - name: SPRING_CLOUD_CONFIG_URI
-              value: http://config-service
-            - name: SPRING_DATA_REDIS_HOST
-              value: mall-redis
             - name: CATALOG_SERVICE_URL
               value: http://catalog-service
             - name: ORDER_SERVICE_URL
               value: http://order-service
-            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI
-              value: http://mall-keycloak/realms/mall
           livenessProbe:
             httpGet:
               port: 9000
@@ -51,3 +45,10 @@ spec:
               path: /actuator/health/readiness
             initialDelaySeconds: 25
             periodSeconds: 15
+          volumeMounts:
+            - mountPath: /workspace/config
+              name: edge-config-volume
+      volumes:
+        - name: edge-config-volume
+          configMap:
+            name: edge-config

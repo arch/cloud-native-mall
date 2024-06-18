@@ -28,11 +28,6 @@ spec:
                 command: [ "sh", "-c", "sleep 5" ]
           ports:
             - containerPort: 9003
-          env:
-            - name: SPRING_CLOUD_CONFIG_URI
-              value: http://config-service
-            - name: SPRING_RABBITMQ_HOST
-              value: mall-rabbitmq
           livenessProbe:
             httpGet:
               port: 9003
@@ -45,3 +40,10 @@ spec:
               path: /actuator/health/readiness
             initialDelaySeconds: 25
             periodSeconds: 15
+          volumeMounts:
+            - name: dispatcher-config-volume
+              mountPath: /workspace/config
+      volumes:
+        - name: dispatcher-config-volume
+          configMap:
+            name: dispatcher-config

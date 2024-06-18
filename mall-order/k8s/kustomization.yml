@@ -6,10 +6,9 @@ resources:
   - service.yml
 
 configMapGenerator:
-  - name: catalog-config
+  - name: order-config
     files:
       - application.yml
     options:
       labels:
-        app: catalog-service
-      # disableNameSuffixHash: true
+        app: order-service

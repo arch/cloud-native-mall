@@ -29,20 +29,8 @@ spec:
               exec:
                 command: [ "sh", "-c", "sleep 5" ]
           env:
-            - name: MALL_CATALOG_SERVICE_URI
-              value: "http://catalog-service"
             - name: BPL_JVM_THREAD_COUNT
               value: "50"
-            - name: SPRING_CLOUD_CONFIG_URI
-              value: "http://config-service"
-            - name: SPRING_R2DBC_URL
-              value: "r2dbc:postgresql://mall-postgres/mall_order"
-            - name: SPRING_FLYWAY_URL
-              value: "jdbc:postgresql://mall-postgres/mall_order"
-            - name: SPRING_RABBITMQ_HOST
-              value: mall-rabbitmq
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-              value: http://mall-keycloak/realms/mall
           livenessProbe:
             httpGet:
               port: 9002
@@ -55,3 +43,10 @@ spec:
               path: /actuator/health/readiness
             initialDelaySeconds: 25
             periodSeconds: 15
+          volumeMounts:
+            - mountPath: /workspace/config
+              name: order-config-volume
+      volumes:
+        - name: order-config-volume
+          configMap:
+            name: order-config

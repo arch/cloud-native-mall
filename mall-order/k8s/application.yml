@@ -1,0 +1,14 @@
+spring:
+  rabbitmq:
+    host: mall-rabbitmq
+  flyway:
+    url: jdbc:postgresql://mall-postgres/mall_order
+  r2dbc:
+    url: r2dbc:postgresql://mall-postgres/mall_order
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://mall-keycloak/realms/mall
+mall:
+  catalog-service-uri: "http://catalog-service"

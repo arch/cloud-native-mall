@@ -4,12 +4,12 @@ kind: Kustomization
 resources:
   - deployment.yml
   - service.yml
+  - ingress.yml
 
 configMapGenerator:
-  - name: catalog-config
+  - name: edge-config
     files:
       - application.yml
     options:
       labels:
-        app: catalog-service
-      # disableNameSuffixHash: true
+        app: edge-service

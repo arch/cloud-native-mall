@@ -13,8 +13,7 @@ import org.springframework.security.oauth2.client.web.server.WebSessionServerOAu
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 
-@Configuration
-@EnableWebFluxSecurity
+@Configuration(proxyBeanMethods = false)
 public class SecurityConfiguration {
     @Bean
     public SecurityWebFilterChain edgeSecurityFilterChain(ServerHttpSecurity http, ReactiveClientRegistrationRepository clientRegistrationRepository) {
