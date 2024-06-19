@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
   - github.com/arch/cloud-native-mall/mall-catalog/k8s?ref=main
 
-patchesStrategicMerge:
-  - patch-env.yml
+patches:
+  - path: patch-env.yml
 
 configMapGenerator:
   - behavior: merge
