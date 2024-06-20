@@ -1,0 +1,5 @@
+mall:
+  greeting: Welcome to the cloud native mall from a production Kubernetes environment!
+spring:
+  config:
+    import: configtree:/workspace/secrets/*/
