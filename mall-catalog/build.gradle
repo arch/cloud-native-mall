@@ -78,8 +78,8 @@ bootRun {
 
 // https://docs.spring.io/spring-boot/gradle-plugin/packaging-oci-image.html
 bootBuildImage {
-    builder = "docker.io/paketobuildpacks/builder-jammy-base"
-    // imageName = "thales/${project.name}:${version}"
+    builder = "paketobuildpacks/builder-jammy-base:latest"
+    pullPolicy = "IF_NOT_PRESENT"
     imageName = "${project.name}"
     environment = ["BP_JVM_VERSION": "17"]
 
