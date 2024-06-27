@@ -80,8 +80,10 @@ bootRun {
 bootBuildImage {
     builder = "paketobuildpacks/builder-jammy-base:latest"
     pullPolicy = "IF_NOT_PRESENT"
+    // https://paketo.io/docs/howto/configuration/#building-behind-a-firewall
+    bindings = ['/home/rigofunc/bindings:/platform/bindings']
     imageName = "${project.name}"
-    environment = ["BP_JVM_VERSION": "17"]
+    environment = ["BP_JVM_VERSION": "17", "BP_LOG_LEVEL": "DEBUG"]
 
     docker {
         publishRegistry {

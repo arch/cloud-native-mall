@@ -43,8 +43,9 @@ dependencyManagement {
 bootBuildImage {
     builder = "paketobuildpacks/builder-jammy-base:latest"
     pullPolicy = "IF_NOT_PRESENT"
+    bindings = ['/home/rigofunc/bindings:/platform/bindings']
     imageName = "${project.name}"
-    environment = ["BP_JVM_VERSION": "17"]
+    environment = ["BP_JVM_VERSION": "17", "BP_LOG_LEVEL": "DEBUG"]
 
     docker {
         publishRegistry {
