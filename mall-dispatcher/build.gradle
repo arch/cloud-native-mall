@@ -46,7 +46,7 @@ dependencyManagement {
 
 bootBuildImage {
     builder = "paketobuildpacks/builder-jammy-base:latest"
-    bindings = ['/home/rigofunc/bindings:/platform/bindings']
+    bindings = ['/home/rigofunc/bindings:/platform/bindings', '/home/rigofunc/deps/:/deps/']
     pullPolicy = "IF_NOT_PRESENT"
     imageName = "${project.name}"
     environment = ["BP_JVM_VERSION" : "17", "BP_LOG_LEVEL": "DEBUG"]
